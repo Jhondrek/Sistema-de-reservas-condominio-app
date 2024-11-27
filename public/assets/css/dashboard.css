@@ -45,6 +45,7 @@ header{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    margin-bottom: 3rem;
 }
 
 .area-comun{
