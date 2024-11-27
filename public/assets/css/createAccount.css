@@ -33,5 +33,11 @@ main button{
 
 .sign-in-container p{
     display: inline;
+    
 }
+
+.sign-in-container{
+    margin-bottom: 3rem;
+}
+
 
