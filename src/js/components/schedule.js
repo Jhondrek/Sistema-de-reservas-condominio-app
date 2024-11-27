@@ -43,19 +43,22 @@ dateEl.addEventListener("change", function(){
 
 reservationFormEl.addEventListener("submit", function(e){
     e.preventDefault()
+
+    if(firstSelectedHour){
+        const reservationConfirmationHtml = getReservationAcknowledgeHtml()
+
+        showPopup(reservationConfirmationHtml)
     
-    const reservationConfirmationHtml = getReservationAcknowledgeHtml()
-
-    showPopup(reservationConfirmationHtml)
-
-    setClosePopupBtnListener()
-
-    document.getElementById("confirm-reservation-btn").addEventListener("click", function(){
-
-        saveReservation()
-        handleReservationConfirmProcess()
-        
-    })
+        setClosePopupBtnListener()
+    
+        document.getElementById("confirm-reservation-btn").addEventListener("click", function(){
+    
+            saveReservation()
+            handleReservationConfirmProcess()
+            
+        })
+    }
+    
 
 })
 
@@ -66,19 +69,19 @@ reservationTimesContainer.addEventListener("click", function(e){
 })
 
 
-reservationTimesContainer.addEventListener("mouseover", function(e){
-    // Only works while clickCounter is 1 
-    if(clickCounter === 1){
-        //Returns the id of the div of the schedule hours
-        let elementId = getSelectedTimeId(e)
-        if(elementId){
-            blockPreviousReservations()
-            colorHoursBetween(firstSelectedHour, elementId, "selected")
-        } 
-    }
+// reservationTimesContainer.addEventListener("mouseover", function(e){
+//     // Only works while clickCounter is 1 
+//     if(clickCounter === 1){
+//         //Returns the id of the div of the schedule hours
+//         let elementId = getSelectedTimeId(e)
+//         if(elementId){
+//             blockPreviousReservations()
+//             colorHoursBetween(firstSelectedHour, elementId, "selected")
+//         } 
+//     }
 
     
-})
+// })
 
 //Si cualquier numero de reservas anteriores es menor/igual al numero mayor && mayor/igual al numero menor descartar esa reserva ocupo una funcion que me diga true o false nada mas
 
@@ -132,7 +135,7 @@ async function getClickedReservationHours(){
 
     for(let i = 0; i< reservedHours.length; i = i+2){
         console.log(reservedHours[i])
-        firstSelectedHour
+        
         if( firstSelectedHour==reservedHours[i] || firstSelectedHour==reservedHours[i+1] || (firstSelectedHour< reservedHours[i+1] && firstSelectedHour> reservedHours[i])){
             return [reservedHours[i], reservedHours[i+1]]
         }
@@ -143,11 +146,20 @@ async function getClickedReservationHours(){
 
 async function saveReservation() {
 
-    if(firstSelectedHour && secondSelectedHour){
+    if(firstSelectedHour){
         const currentUserInfo = await getCurrentUserInformation()
         const houseNumber = await getUserHouseNumber(currentUserInfo.userId)
-        const startHour = Math.min(firstSelectedHour, secondSelectedHour)
-        const endHour = Math.max(firstSelectedHour, secondSelectedHour)
+        let startHour = 0
+        let endHour = 0
+
+        if(secondSelectedHour){
+             startHour =Math.min(firstSelectedHour, secondSelectedHour)
+             endHour = Math.max(firstSelectedHour, secondSelectedHour)
+        }else{
+             endHour = Number(firstSelectedHour)
+             startHour = Number(firstSelectedHour)
+        }
+        
         const documentToAdd = {
             firstHour : startHour,
             secondHour : endHour,
@@ -263,6 +275,7 @@ async function handleClicksOnHours(e){
     if(clickCounter === 1){
         firstSelectedHour = getSelectedTimeId(e)
         //if the hour selected is already booked
+        document.getElementById(firstSelectedHour).classList.add("selected")
         if(await isDateClickedBooked(e)){
             const selectedReservationDetails = await fetchSelectedReservationDetails()
             //if the current user the owner of the reservation
@@ -324,6 +337,7 @@ function setHandleClickInitialState(){
         secondSelectedHour = ""
         clickCounter = 0
         blockPreviousReservations()
+        console.log("reseteado")
 }
 
 async function fetchSelectedReservationDetails(){
@@ -342,7 +356,7 @@ async function fetchSelectedReservationDetails(){
 
 
 //it colors all the hour divs between the first and second hour provided
-function colorHoursBetween(firstHour, secondHour, className){
+function colorHoursBetween(firstHour, secondHour=firstHour, className){
     let lowestValue = Math.min(firstHour, secondHour)
     let highestValue = Math.max(firstHour,secondHour ) 
 
@@ -469,11 +483,11 @@ function getReservationAcknowledgeHtml(){
 }
 
 function getHourSelectionHtml(){
-    let hourRangeHtml = ""
-    if(currentTimeRange[0]==currentTimeRange[1]){
-        return hourRangeHtml = ` ${formatHours(currentTimeRange[0])} a ${formatHours(currentTimeRange[0]+1)}`
+    
+    if(currentTimeRange[0]==currentTimeRange[1] || (firstSelectedHour && !secondSelectedHour)){
+        return ` ${formatHours(firstSelectedHour)} a ${formatHours(Number(firstSelectedHour) + 1)}`
     }else{
-        return hourRangeHtml = ` ${formatHours(currentTimeRange[0])} a ${formatHours(currentTimeRange[1])}`
+        return ` ${formatHours(currentTimeRange[0])} a ${formatHours(currentTimeRange[1])}`
     }
 }
 
@@ -498,11 +512,11 @@ function getOwnReservationDetailsHtml(reservationDetails){
     <h2>Detalles de su Reserva: </h2>
     <p>Estimado/a <span class="bold">${reservationDetails.userName}</span>, aquí están los detalles de su reserva:</p>
     
-    <ul>
-        <li><strong>Número de Casa:</strong> ${reservationDetails.houseNumber}</li>
-        <li><strong>Fecha:</strong> ${formatDate(reservationDetails.reservationDate)}</li>
-        <li><strong>Horario:</strong> de ${formatHours(reservationDetails.firstHour)} a ${formatHours(reservationDetails.secondHour)}</li>
-    </ul>
+    
+        <p><strong>Número de Casa:</strong> ${reservationDetails.houseNumber}</p>
+        <p><strong>Fecha:</strong> ${formatDate(reservationDetails.reservationDate)}</p>
+        <p><strong>Horario:</strong> de ${getHourSelectionHtml()}</>
+    
 
     <div class="pop-up-btns-container">
         <button id="close-btn" class="close-popup-btn">Cerrar</button>

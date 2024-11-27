@@ -17,6 +17,7 @@ const firstPassword = document.getElementById("first-password")
 const secondPassword = document.getElementById("second-password")
 const passwordAlert = document.getElementById("passwords-alert")
 const houseNumberAlert = document.getElementById("house-Num-alert")
+const emailRegisteredAlert = document.getElementById("email-registered-alert")
 
 //global variables
 
@@ -28,11 +29,19 @@ const extraUserInfoRepo  = "extraUserInfo"
 firstPassword.addEventListener("input", showPasswordAlerts)
 secondPassword.addEventListener("input", showPasswordAlerts)
 houseNumber.addEventListener("input", showHouseNumberAlert)
+newUserForm.addEventListener("submit", function(e){
+    e.preventDefault()
+    handleSignUpProcess()
+})
 
+emailEl.addEventListener("click", function(){
+    hideElement(emailRegisteredAlert)
+})
 //* == Repository functions == */
 
 async function isHouseNumberRegistered(){
      const isHouseRegistered = await repository.isValueInCollectionDocuments(extraUserInfoRepo, "houseNumber",  houseNumber.value)
+     console.log(isHouseRegistered)
      return isHouseRegistered
 }
 
@@ -116,11 +125,6 @@ function addBorderSuccess(){
 
 
 
-/* == UI - Event Listeners == */
-newUserForm.addEventListener("submit", function(e){
-    e.preventDefault()
-    handleSignUpProcess()
-})
 
 
 /* == UI - Authentication functions == */
@@ -128,19 +132,30 @@ async function handleSignUpProcess() {
     
     if(firstPassword.value === secondPassword.value && firstPassword.value !== "" && ! await isHouseNumberRegistered()){
         try{
-            await signUpWithEmailPassword()
-            await updateUserProfileName()
-            await addHouseNumber()
-            window.location.href = "dashboard.html"
+            //show error message if the email is already registered
+            if(await authService.isUserRegistered(emailEl.value)){
+                showEmailRegisteredError()
+            }else{
+                await signUpWithEmailPassword()
+                await updateUserProfileName()
+                await addHouseNumber()
+                window.location.href = "dashboard.html"
+            }
+            
         }catch(e){ console.log(e.message)
     
         }
     }
 }
 
+function showEmailRegisteredError(){
+    showElement(emailRegisteredAlert)
+}
+
 async function signUpWithEmailPassword(){
     const email = emailEl.value
     const password = firstPassword.value
+    
     await authService.signUpWithEmailPassword(email, password)
 }
 

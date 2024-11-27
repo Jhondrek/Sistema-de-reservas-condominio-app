@@ -32,10 +32,14 @@ async function isHouseNumberRegistered(){
 }
 
 async function addHouseNumber(){
+
+    const userInfo = await authService.getCurrentUserInformation()
+    console.log(userInfo)
     const documentToAdd = {
-        userId : authService.currentUser.uid,
-        houseNumber :  houseNumber.value
+        userId : userInfo.userId,
+        houseNumber : houseNumber.value
     }
+    console.log(documentToAdd)
     await repository.addDocument(extraUserInfoRepo ,documentToAdd)
 }
 

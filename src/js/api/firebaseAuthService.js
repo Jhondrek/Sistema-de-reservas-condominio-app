@@ -75,7 +75,7 @@ export class FirebaseAuth extends AuthService {
           console.log(user + " creado exitosamente")
       })
       .catch((e) => {
-          console.log(e.message)
+          console.log(e.message) 
       });
   }
 

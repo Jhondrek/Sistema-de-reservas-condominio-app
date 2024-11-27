@@ -64,7 +64,7 @@ button{
     width: 100%;
 }
 
-button:hover, button:active{
+ button:active{
     background-color: var(--call-to-action-three);
 }
 

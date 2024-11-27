@@ -34,8 +34,7 @@
 }
 
 .booking-availability div:hover{
-    background-color: var(--call-to-action-two);
-    color: whitesmoke;
+    
     cursor: pointer;
 }
 
@@ -89,7 +88,7 @@ input[type="date"]{
 
 .message-popup p{
     margin: 0;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
     font-weight: 500;
 }
 
@@ -108,8 +107,20 @@ input[type="date"]{
     font-weight: bold;
 }
 
-.reservation-details h3{
-    margin-bottom: 0.5rem;
+.reservation-details h2{
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+}
+
+
+.reservation-details p{
+    margin: none
+}
+
+.reservation-details button{
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-top: 1rem;
 }
 
 .upload-btn{
