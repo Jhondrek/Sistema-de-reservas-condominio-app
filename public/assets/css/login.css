@@ -24,12 +24,14 @@ main{
 }
 
 
+
 main h1 {
     margin-bottom:1em ;
 }
 
 body{
     justify-content: space-between;
+    height: 100vh;
 }
 
 .google-img{

@@ -58,7 +58,7 @@ async function handleGoogleSignUpProcess() {
         const wasUserRegistedBefore = await wasUserRegisteredBefore(authService.userId)
         
         if(wasUserRegistedBefore){
-            window.location.href = "./public/dashboard.html"
+            // window.location.href = "./public/dashboard.html"
         }else{
             window.location.href = "./public/profileSetup.html"
         }
