@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="/public/assets/css/main.css">
+    <link rel="stylesheet" href="/public/assets/css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body-spacing">
+    
+    <main>
+        <h1>Iniciar sesión</h1>
+        <input type="email" placeholder="email" id="emailEl">
+        <input type="password" placeholder="contraseña" id="passwordEl">
+        <button class="primary-btn" id="sing-in-email-pw-btn">Iniciar sesión</button>
+        <p class="alert-message alert-font" id="email-alert">El correo electronico ingresado no ha sido registrado, favor crear cuenta</p>
+        <p class="alert-message alert-font" id="password-alert">La contraseña ingresada no es valida</p>
+    </main>
+    
+    <section class="google-sign-log-in-container">
+        <div class="google-sign-in-container">
+            <p>O inicia sesion con</p>
+            <button  class="btn google-btn" id="google-btn">
+                    <img src="/public/assets/img/google.png" alt="google logo" class="google-img">
+            </button>
+        </div>
+         <div class="create-account">
+            <p>no tienes cuenta?  </p><a href="./public/createAccount.html"> crea una cuenta</a>
+        </div>
+    </section>
+
+    <script src="src/js/api/firebaseAuthService.js" type="module"></script>
+    <script src="src/js/components/index.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+:root {
+    --main-bg-color: #f7f7f7;
+    --call-to-action-one: #A0AE34;
+    --call-to-action-two: #AE6140;
+    --call-to-action-three:#955337;
+    --primary-color-one: #584338;
+    --primary-color-two: #4D3932;
+    --black:#000000;
+    --almost-black: #111111;
+    --tinted-black: #222222;
+    --light-black: #333333;
+    --pale-black: #444444;
+    --light-gray: #999999;
+    --silver: #bbbbbb;
+    --Alert: #f44336;
+    --success: #4caf50;
+    --border-radius:10px;
+}
+
+main{
+    margin-top: 4em;
+    display: flex;
+    flex-direction: column;
+}
+
+
+main h1 {
+    margin-bottom:1em ;
+}
+
+body{
+    justify-content: space-between;
+}
+
+.google-img{
+    width: 25px;
+    cursor: pointer;
+}
+
+
+.google-sign-in-container{
+    display: flex;
+    justify-content: center;
+}
+
+.create-account p{
+    display: inline;
+    margin: 0;
+}
+
+
+.google-btn:hover, .google-btn:active{
+    background-color: var(--main-bg-color);
+}
+
+.create-account{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.create-account a{
+    margin-left: 0.3rem;
+}
+
+.google-btn{
+    background-color: var(--main-bg-color);
+}

@@ -1,0 +1,513 @@
+import {fireBaseRepository} from "../api/firebaseDataRepository.js"
+import {FirebaseAuth} from "../api/firebaseAuthService.js"
+
+/* == URL object so we can obtain the id that was passed to us from the dashboard == */
+const idTest = new URLSearchParams(window.location.search) 
+const commonAreaId = idTest.get("id")
+
+/* == Repository Object == */
+const repository = new fireBaseRepository
+
+/* == Auth Object == */
+const authService = new FirebaseAuth
+
+
+/* == UI - Elements == */
+const reservationTimesContainer = document.getElementById("reservation-times-container")
+const reservationFormEl = document.getElementById("reservation-form")
+const dateEl = document.getElementById("date")
+const messagePopupEl = document.getElementById("message-popup")
+const mainTag = document.getElementById("main")
+
+/* == global variables == */
+    let firstSelectedHour = ""
+    let secondSelectedHour = ""
+    let clickCounter = 0
+//stores a two element array, the first element is the lowest selected hour by the user and the second is the highest selected hour
+    let currentTimeRange = []
+// Its value is assigned in renderSchedulingTimes() (to show the booked dates) and in saveReservation() (to add the newly booked hours to the UI).
+
+    let reservationsHours = []
+
+/* == Listeners == */
+
+
+dateEl.addEventListener("change", function(){
+    renderSchedulingTimes()
+    //If its not the first time this function is called, and we change the date we wanto to select:
+    if(document.getElementById("1")){
+        setHandleClickInitialState()
+    }
+    
+})
+
+reservationFormEl.addEventListener("submit", function(e){
+    e.preventDefault()
+    
+    const reservationConfirmationHtml = getReservationAcknowledgeHtml()
+
+    showPopup(reservationConfirmationHtml)
+
+    setClosePopupBtnListener()
+
+    document.getElementById("confirm-reservation-btn").addEventListener("click", function(){
+
+        saveReservation()
+        handleReservationConfirmProcess()
+        
+    })
+
+})
+
+
+reservationTimesContainer.addEventListener("click", function(e){
+    handleClicksOnHours(e)
+    
+})
+
+
+reservationTimesContainer.addEventListener("mouseover", function(e){
+    // Only works while clickCounter is 1 
+    if(clickCounter === 1){
+        //Returns the id of the div of the schedule hours
+        let elementId = getSelectedTimeId(e)
+        if(elementId){
+            blockPreviousReservations()
+            colorHoursBetween(firstSelectedHour, elementId, "selected")
+        } 
+    }
+
+    
+})
+
+//Si cualquier numero de reservas anteriores es menor/igual al numero mayor && mayor/igual al numero menor descartar esa reserva ocupo una funcion que me diga true o false nada mas
+
+
+//* == Repository functions == */
+
+
+
+async function isDateClickedBooked(e) {
+    const reservedHours = await getReservationHours()
+    
+    for(let i = 0; i< reservedHours.length; i = i+2){
+            if( getSelectedTimeId(e)==reservedHours[i]|| 
+                getSelectedTimeId(e)==reservedHours[i+1] ||
+                (getSelectedTimeId(e)< reservedHours[i+1] && getSelectedTimeId(e)> reservedHours[i])
+            ){
+                return true
+            }
+    }
+    
+    return false
+}
+
+async function areClickedHoursBooked(){
+    const reservedHours = await getReservationHours()
+
+    const startHour = Math.min(firstSelectedHour, secondSelectedHour)
+    const endHour = Math.max(firstSelectedHour, secondSelectedHour)
+
+// Verifying if any of the hours from the previous reservations are in between the currently selected hours
+    
+    
+    for(let i = 0; i<reservedHours.length; i=i+2){
+        console.log("Horas de inicio"+startHour, reservedHours[i] )
+        console.log("Horas de final"+endHour, reservedHours[i+1] )
+        if(
+            (startHour >= reservedHours[i] && startHour < reservedHours[i + 1]) || 
+            (endHour > reservedHours[i] && endHour <= reservedHours[i + 1]) || 
+            (startHour <= reservedHours[i] && endHour >= reservedHours[i + 1])|| startHour===reservedHours[i+1] || endHour===reservedHours[i]
+        )  {
+            return true
+        }
+    }
+
+    return false
+}
+
+async function getClickedReservationHours(){
+    const reservedHours = await getReservationHours()
+    
+
+    for(let i = 0; i< reservedHours.length; i = i+2){
+        console.log(reservedHours[i])
+        firstSelectedHour
+        if( firstSelectedHour==reservedHours[i] || firstSelectedHour==reservedHours[i+1] || (firstSelectedHour< reservedHours[i+1] && firstSelectedHour> reservedHours[i])){
+            return [reservedHours[i], reservedHours[i+1]]
+        }
+    }
+
+    return false
+}
+
+async function saveReservation() {
+
+    if(firstSelectedHour && secondSelectedHour){
+        const currentUserInfo = await getCurrentUserInformation()
+        const houseNumber = await getUserHouseNumber(currentUserInfo.userId)
+        const startHour = Math.min(firstSelectedHour, secondSelectedHour)
+        const endHour = Math.max(firstSelectedHour, secondSelectedHour)
+        const documentToAdd = {
+            firstHour : startHour,
+            secondHour : endHour,
+            userId : currentUserInfo.userId,
+            userName : currentUserInfo.userName,
+            houseNumber: houseNumber,
+            reservationDate: dateEl.value,
+            commonAreaId : commonAreaId
+        }
+        repository.addDocument("reservations", documentToAdd)
+        reservationsHours = await getReservationHours()
+        blockPreviousReservations()
+        setHandleClickInitialState()
+    }
+    
+
+}
+
+
+async function deleteReservation(reservationDetails){
+    const filters = [
+        { field: "reservationDate", operator: "==", value: reservationDetails.reservationDate },{field: "firstHour", operator: "==", value: reservationDetails.firstHour}
+    ]
+
+    const a = await repository.deleteDocumentByFilter("reservations",filters)
+    console.log(a)
+}
+
+//Returns an array of objects with the information of the reservations done in a specific date
+async function getReservationsByDate(currentReservationDate) {
+
+    const filter = [
+        { field: "reservationDate", operator: "==", value: currentReservationDate },{field: "commonAreaId", operator: "==", value: commonAreaId }
+    ]
+    
+    const reservationDocuments = await repository.getDocumentsByFilter("reservations", filter)
+                        
+    
+
+    let reservationsArray = []
+    //creates an array of objects with the information obtained
+    if(reservationDocuments){
+        reservationDocuments.forEach((document)=>{
+            let earlyestDate = Math.min(document.data().firstHour, document.data().secondHour)
+            let latestDate = Math.max(document.data().firstHour, document.data().secondHour)
+    
+            reservationsArray.push({
+                firstHour : earlyestDate,
+                secondHour : latestDate,
+                userId : document.data().userId,
+                userName : document.data().userName,
+                houseNumber: document.data().houseNumber,
+                reservationDate: document.data().reservationDate,
+                commonAreaId: document.data().commonAreaId
+            })
+        })
+    }
+
+    return reservationsArray
+
+}
+
+async function getCurrentUserInformation(){
+    const currentUserInfromation = await authService.getCurrentUserInformation()
+    return currentUserInfromation
+}
+async function getUserHouseNumber(userId){
+    const filters = [
+        { field: "userId", operator: "==", value: userId }
+    ];
+    const extraInfoDoc = await repository.getDocumentsByFilter("extraUserInfo", filters)
+    const houseNumber = extraInfoDoc.docs[0].data().houseNumber
+    return houseNumber
+}
+
+/* == UI functions == */
+
+
+async function getReservationHours(){
+    const reservationsForCurrentDate = await getReservationsByDate(dateEl.value)
+    let hourArray = []
+    reservationsForCurrentDate.forEach((reservation)=> {
+        hourArray.push(reservation.firstHour)    
+        hourArray.push(reservation.secondHour)    
+    })
+    return hourArray
+}
+
+async function renderSchedulingTimes(){
+    let HtmlTimeStamps = ""
+    let hourCounter = 1
+    reservationsHours = await getReservationHours()
+    for(let i=1; i <= 24; i++){
+            HtmlTimeStamps += 
+        `
+            <div id="${i}">
+                <p>${formatHours(hourCounter)}</p>
+            </div>
+        `
+        hourCounter++
+    }
+    reservationTimesContainer.innerHTML = HtmlTimeStamps
+    blockPreviousReservations()
+}
+
+ 
+
+//The first time the user clicks defines a value in firstHourSelected
+//second click, stops the "mousover" listener, and saves the secondHourSelected
+//third click deleates all information from variables and counter, restarts
+async function handleClicksOnHours(e){
+    clickCounter++
+    if(clickCounter === 1){
+        firstSelectedHour = getSelectedTimeId(e)
+        //if the hour selected is already booked
+        if(await isDateClickedBooked(e)){
+            const selectedReservationDetails = await fetchSelectedReservationDetails()
+            //if the current user the owner of the reservation
+            if(await isCurrentUserOwnerOfReservation( selectedReservationDetails.userId)){
+
+                showPopup(getOwnReservationDetailsHtml(selectedReservationDetails))
+
+                document.getElementById("delete-reservation").addEventListener("click", async function(){
+                    await deleteReservation(selectedReservationDetails)
+                    reservationsHours = await getReservationHours()
+                    console.log(reservationsHours)
+                    setHandleClickInitialState()
+                    hidePopup()
+                    
+                })
+
+                setClosePopupBtnListener ()
+                setHandleClickInitialState()
+            }else{
+                //show the information from the reservation
+                const bookedReservationHtml = getBookedReservationHtml(selectedReservationDetails)
+                showPopup(bookedReservationHtml)
+                setClosePopupBtnListener ()
+                setHandleClickInitialState()
+            } 
+        }
+        
+    }else if(clickCounter === 2){
+        secondSelectedHour = getSelectedTimeId(e)
+        currentTimeRange = getLowestAndHighestValue(firstSelectedHour, secondSelectedHour)
+
+        if(await areClickedHoursBooked()){
+            setHandleClickInitialState()
+            showPopup(getRangeErrorHtml())
+            setClosePopupBtnListener ()
+        }else{
+            blockPreviousReservations()
+            colorHoursBetween(firstSelectedHour, secondSelectedHour, "selected")
+        }
+        
+    }else{
+        setHandleClickInitialState()
+    }
+}
+
+
+
+async function isCurrentUserOwnerOfReservation(reservationId){
+    const currentUserInfo = await getCurrentUserInformation()
+    if(currentUserInfo.userId == reservationId){
+        return true
+    }else{
+        return false
+    }
+}
+
+function setHandleClickInitialState(){
+        firstSelectedHour = ""
+        secondSelectedHour = ""
+        clickCounter = 0
+        blockPreviousReservations()
+}
+
+async function fetchSelectedReservationDetails(){
+    const reservationHours = await getClickedReservationHours()
+
+    const reservationFilter = [
+        { field: "firstHour", operator: "==", value: reservationHours[0] }, { field: "secondHour", operator: "==", value: reservationHours[1] }
+    ]
+    const reservation = await repository.getDocumentsByFilter("reservations", reservationFilter)    
+    
+    return reservation.docs[0].data()
+}
+
+
+
+
+
+//it colors all the hour divs between the first and second hour provided
+function colorHoursBetween(firstHour, secondHour, className){
+    let lowestValue = Math.min(firstHour, secondHour)
+    let highestValue = Math.max(firstHour,secondHour ) 
+
+    for(lowestValue; highestValue+1 > lowestValue;  lowestValue++){
+        document.getElementById(lowestValue).classList.add(className)
+    }
+}
+
+
+
+
+//returns the id of the div you clicked on, even if you clicked on the <p> tag
+function getSelectedTimeId(e){
+    if(e.target.tagName === "P"){
+        return e.target.parentElement.id
+    }else if(e.target.tagName === "DIV"){
+        return e.target.id
+    }
+    return false
+}
+
+// gets rid of the selected class on all divs
+function unSelectReservations(){
+    for(let i=1; i <= 24; i++){
+        document.getElementById(i).classList.remove("selected")
+        document.getElementById(i).classList.remove("booked")
+    }
+}
+
+//Takes the value stored in the global variable "reservationsHours" and colors the booked dates saved in it
+async function blockPreviousReservations(){
+    unSelectReservations()
+    for(let i =0; i< reservationsHours.length; i = i+2){
+        colorHoursBetween(reservationsHours[i], reservationsHours[i+1], "booked")
+    }
+}
+
+function getLowestAndHighestValue(numberA, numberB){
+    let lowestValue = Math.min(numberA, numberB)
+    let highestValue = Math.max(numberA,numberB) 
+    return [lowestValue, highestValue]
+}
+
+function formatHours(time){
+    if(time<12){
+        return `${time} am`
+    }else if(time==12){
+        return`12 pm`
+    }else if(time ==24){
+        return `12 am`
+    }
+    else{
+        return `${time-12} pm`
+    }
+}
+
+
+function formatDate(dateValue){
+    const splitedDate = dateValue.split("-")
+    const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]
+    return `${splitedDate[2]} de ${meses[splitedDate[1]-1]} del ${splitedDate[0]}`
+}
+
+function showPopup(popupHTML){
+
+    messagePopupEl.innerHTML = popupHTML
+    messagePopupEl.style.display = "flex"
+    mainTag.classList.add("opacity")
+}
+
+function hidePopup(){
+    messagePopupEl.innerHTML = ""
+    messagePopupEl.style.display = "none"
+    mainTag.classList.remove("opacity")
+}
+async function handleReservationConfirmProcess(){
+    showPopup()
+    messagePopupEl.innerHTML = `<div class="loader"></div>`
+    const confirmationHtml = await getReservationConfirmationHTML()
+    console.log(confirmationHtml)
+    messagePopupEl.innerHTML = confirmationHtml
+    setClosePopupBtnListener ()
+}
+
+function setClosePopupBtnListener (){
+    document.getElementById("close-btn").addEventListener("click", function(){
+        hidePopup()
+        setHandleClickInitialState()
+    })
+}
+
+async function getReservationConfirmationHTML(){
+    const currentUserInfo = await getCurrentUserInformation()
+    const houseNumber = await getUserHouseNumber(currentUserInfo.userId)
+    
+    return`
+    <p>
+        Estimado/a ${currentUserInfo.userName},<br><br>
+        Su reserva ha sido registrada exitosamente con el número de casa ${houseNumber}.<br><br>
+        Fecha: <span class="bold">${dateEl.value}<br></span>
+        Horario:<span class="bold"> de ${getHourSelectionHtml()}</span><br><br>
+    </p>
+    <button id="close-btn">De acuerdo!</button>
+    `
+}
+
+function getRangeErrorHtml(){
+    return `<p>El rango de horas seleccionado entra en conflicto con una reserva anterior. Por favor, elija solo los horarios que no hayan sido seleccionados previamente (Los que no aparecen en gris).</p>
+    <button id="close-btn">Cancelar</button> 
+    `
+}
+
+function getReservationAcknowledgeHtml(){
+    
+    const htmlResponse = `
+        <p>Desea crear una reserva para el dia ${formatDate(dateEl.value)} en un horario de ${getHourSelectionHtml()}?</p>
+        <div class="button-popup-div">
+            <button id="close-btn">Cancelar</button> 
+            <button id="confirm-reservation-btn">Reservar</button>
+        </div>
+    `
+
+    return htmlResponse
+}
+
+function getHourSelectionHtml(){
+    let hourRangeHtml = ""
+    if(currentTimeRange[0]==currentTimeRange[1]){
+        return hourRangeHtml = ` ${formatHours(currentTimeRange[0])} a ${formatHours(currentTimeRange[0]+1)}`
+    }else{
+        return hourRangeHtml = ` ${formatHours(currentTimeRange[0])} a ${formatHours(currentTimeRange[1])}`
+    }
+}
+
+function getBookedReservationHtml(reservationDetails){
+    return `
+    <p>
+        Informacion de la reserva seleccionada:<br><br>
+        Nombre del Inquilino que reserva <span class="bold">${reservationDetails.userName}</span>,<br><br>
+        Número de casa: <span class="bold">${reservationDetails.houseNumber}</span>.<br><br>
+        Fecha: <span class="bold">${formatDate(reservationDetails.reservationDate)}</span><br>
+        Horario: <span class="bold">de ${formatHours(reservationDetails.firstHour)} a ${formatHours(reservationDetails.secondHour)}</span><br><br>
+    </p>
+    <button id="close-btn">De acuerdo!</button>
+    `
+}
+
+
+function getOwnReservationDetailsHtml(reservationDetails){
+    return `
+    <div class="reservation-details">
+
+    <h2>Detalles de su Reserva: </h2>
+    <p>Estimado/a <span class="bold">${reservationDetails.userName}</span>, aquí están los detalles de su reserva:</p>
+    
+    <ul>
+        <li><strong>Número de Casa:</strong> ${reservationDetails.houseNumber}</li>
+        <li><strong>Fecha:</strong> ${formatDate(reservationDetails.reservationDate)}</li>
+        <li><strong>Horario:</strong> de ${formatHours(reservationDetails.firstHour)} a ${formatHours(reservationDetails.secondHour)}</li>
+    </ul>
+
+    <div class="pop-up-btns-container">
+        <button id="close-btn" class="close-popup-btn">Cerrar</button>
+        <button id="delete-reservation" class="delete-btn">Eliminar reserva actual</button>
+    </div>
+</div>
+    `
+}

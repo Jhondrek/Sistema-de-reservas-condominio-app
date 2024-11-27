@@ -1,0 +1,152 @@
+:root {
+    --main-bg-color: #f7f7f7;
+    --call-to-action-one: #A0AE34;
+    --call-to-action-two: #AE6140;
+    --call-to-action-three:#955337;
+    --primary-color-one: #584338;
+    --primary-color-two: #4D3932;
+    --black:#000000;
+    --almost-black: #111111;
+    --tinted-black: #222222;
+    --light-black: #333333;
+    --pale-black: #444444;
+    --light-gray: #999999;
+    --silver: #bbbbbb;
+    --Alert: #f44336;
+    --success: #4caf50;
+    --border-radius:10px;
+}
+
+.booking-availability{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1.8rem;
+    gap: 2px
+}
+
+.booking-availability div{
+    width: 20%;
+    text-align: center;
+    font-weight: 500;
+   
+    
+}
+
+.booking-availability div:hover{
+    background-color: var(--call-to-action-two);
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+.no-hover{
+    background-color: var(--main-bg-color);
+    color: var(--tinted-black);
+    cursor: default;
+}
+
+.selected{
+    background-color: var(--call-to-action-two);
+    cursor: pointer;
+    color: whitesmoke;
+}
+
+.booked{
+    background-color: var(--light-gray);
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+body{
+    padding-top: 4em;
+}
+
+input[type="date"]{
+    margin: 2rem 0rem 4rem 0rem;
+}
+
+.save-reservation-btn{
+    margin-top: 2rem;
+}
+
+.message-popup{
+    position: fixed;
+    top: 10%; 
+    left: 50%;
+    transform: translate(-50%);
+    background-color: var(--silver);
+    border-radius: 10px;
+    padding: 2em 3em;
+    width: 80%;
+    padding: 3rem 2.5rem;
+    opacity: 1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20%;
+}
+
+.message-popup p{
+    margin: 0;
+    margin-bottom: 2.5rem;
+    font-weight: 500;
+}
+
+.button-popup-div{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.opacity{
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.reservation-details h3{
+    margin-bottom: 0.5rem;
+}
+
+.upload-btn{
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+.pop-up-btns-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.go-back-anchor{
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+    color: var(--tinted-black);
+}
+
+/* HTML: <div class="loader"></div> */
+
+.loader {
+    margin: auto;
+    display: block;
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 

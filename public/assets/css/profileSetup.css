@@ -1,0 +1,15 @@
+body{
+    justify-content: space-between;
+    align-items: center;
+}
+
+main{
+    margin-top: 4em;
+}
+main h1 {
+    margin-bottom:1em ;
+}
+
+.sign-in-container p{
+    display: inline;
+}

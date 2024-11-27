@@ -1,0 +1,87 @@
+:root {
+    --main-bg-color: #f7f7f7;
+    --call-to-action-one: #A0AE34;
+    --call-to-action-two: #AE6140;
+    --call-to-action-three:#955337;
+    --primary-color-one: #584338;
+    --primary-color-two: #4D3932;
+    --black:#000000;
+    --almost-black: #111111;
+    --tinted-black: #222222;
+    --light-black: #333333;
+    --pale-black: #444444;
+    --light-gray: #999999;
+    --dark-white: #d1d1d1;
+    --shaded-White: #dddddd;
+    --almost-white: #eeeeee;
+    --silver: #bbbbbb;
+    --Alert: #f44336;
+    --success: #4caf50;
+    --border-radius:10px;
+}
+
+body{
+    align-items: center;
+}
+
+
+
+header h1{
+    font-size: 1.2rem;
+    padding-left: 2rem;
+    text-align: center;
+}
+
+header p{
+    padding-left: 2rem;
+}
+
+header{
+    margin: 2rem 0rem;
+    
+}
+
+#common-areas-section{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.area-comun{
+    width: 45%;
+    background-color: var(--shaded-White);
+    border-radius: 10px;
+    padding: 0.8rem;
+    color: var(--light-black);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 2rem;
+    cursor: pointer;
+}
+
+img{
+    width: 100%;
+    border-radius: 10px ;
+    margin: 0.8rem 0rem;
+}
+
+.area-comun h2{
+    font-size: 0.8rem;
+}
+.area-comun a{
+    display: block;
+    margin: 1rem 0rem;
+    color: var(--light-black);
+}
+
+.cerrar-sesion{
+    margin-left: auto;
+    font-size: 1rem;
+    color: var(--light-black);
+}
+
+.cerrar-sesion:hover{
+    background-color: var(--main-bg-color);
+}

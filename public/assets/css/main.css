@@ -1,0 +1,111 @@
+*{
+    box-sizing: border-box;
+}
+
+:root {
+    --main-bg-color: #f7f7f7;
+    --call-to-action-one: #A0AE34;
+    --call-to-action-two: #AE6140;
+    --call-to-action-three:#955337;
+    --primary-color-one: #584338;
+    --primary-color-two: #4D3932;
+    --black:#000000;
+    --almost-black: #111111;
+    --tinted-black: #222222;
+    --light-black: #333333;
+    --pale-black: #444444;
+    --light-gray: #999999;
+    --silver: #bbbbbb;
+    --Alert: #f44336;
+    --success: #4caf50;
+    --border-radius:10px;
+}
+
+h1,h2,h3,h4,h5,h6{
+    margin: 0;
+}
+
+h1{
+    font-size: 1.7em;
+}
+
+body{
+    background-color: var(--main-bg-color);
+    color:var(--tinted-black);
+    padding: 1em 1.5em;
+    height: 100vh;
+    font-family: "Montserrat", sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-body-spacing{
+    padding: 1rem 1.5rem 3.2rem 1.5rem ;
+    overflow-y: hidden;
+}
+
+body, button, input{
+    font-family: "Montserrat", sans-serif;
+}
+
+button{
+    border: none;
+    background-color: var(--main-bg-color);
+    padding: 1rem;
+    font-weight: 400;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.primary-btn{
+    background-color: var(--call-to-action-two);
+    color: white;
+    display: block;
+    width: 100%;
+}
+
+button:hover, button:active{
+    background-color: var(--call-to-action-three);
+}
+
+
+a{
+    text-decoration:none ;
+    color: var(--call-to-action-two);
+}
+
+input{
+    padding: 1rem 0.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--light-gray);
+    font-size: 1em;
+    margin-bottom: 1.5em ;
+    width: 100%;
+}
+
+button, input{
+    padding: 1rem 0.5rem;
+    border-radius:  var(--border-radius);
+}
+
+
+.border-alert{
+    border: 1px solid var(--Alert);
+}
+
+.border-success{
+    border: 1px solid var(--success);
+}
+
+.alert-font{
+    color: var(--Alert);
+    font-weight: 500;
+}
+
+.alert-message{
+    margin: none;
+    padding: none;
+    text-align: center;
+    display: none;
+}
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>schedule</title>
+        <link rel="stylesheet" href="/public/assets/css/main.css">
+        <link rel="stylesheet" href="/public/assets/css/schedule.css">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/0f7bae20d3.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <a class="fa-solid fa-arrow-left go-back-anchor" href="dashboard.html"></a>
+        <main id="main">
+            <form id="reservation-form">
+                <h1>Seleccione el dia a reservar</h1>
+                <input type="date" id="date" required >
+                <h2>seleccione las horas a reservar:</h2>
+                <section class="booking-availability" id="reservation-times-container">
+                </section>
+                <input type="submit" class="primary-btn save-reservation-btn" id="save-reservation-btn">
+            </form>
+        </main>
+<span></span>
+        <section class="message-popup" id="message-popup">
+            <p>Desea crear reserva para el dia 11-22-2024 en un horario de 10am a 5pm?</p>
+            <div class="button-popup-div">
+                <button>Cancelar</button> <button>Reservar</button>
+            </div>
+        </section>
+
+        <script src="../src/js/components/schedule.js" type="module"></script>
+    </body>
+
+    
+
+</html>

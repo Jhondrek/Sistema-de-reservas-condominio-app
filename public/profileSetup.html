@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta</title>
+    <link rel="stylesheet" href="/public/assets/css/main.css">
+    <link rel="stylesheet" href="/public/assets/css/profileSetup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body-spacing">
+
+    <main>
+        <h1>Datos de perfil:</h1>
+        <form id="new-user-form">
+            <input type="text" placeholder="Nombre completo" id="name-el" required>
+            <input class="house-number" type="number" placeholder="# casa" id="house-number" required>
+            <input type="submit" class="primary-btn" value="Crear cuenta">
+        </form>
+    </main>
+
+    <p class="alert-message alert-font" id="house-Num-alert">El numero de casa seleccionado ya se encuentra registrado en la base de datos, favor verificar</p>
+
+    <div class="sign-in-container">
+        <p>Ya tienes una cuenta?</p> <a href="index.html">iniciar sesion</a>
+    </div>
+    <script src="../src/js/components/profileSetup.js" type="module"></script>
+</body>
+</html>
