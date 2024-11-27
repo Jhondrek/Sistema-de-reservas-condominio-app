@@ -67,3 +67,7 @@ body{
 .google-btn{
     background-color: var(--main-bg-color);
 }
+
+.google-sign-log-in-container{
+    margin-bottom: 2rem;
+}
