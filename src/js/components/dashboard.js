@@ -54,5 +54,5 @@ function createCommonArea(wholeDoc){
 renderWelcomeMessage()
 async function renderWelcomeMessage(){
     const currentUserInfo = await authService.getCurrentUserInformation()
-    welcomeMessage.textContent = `Bienvenido ${currentUserInfo.userName}`
+    welcomeMessage.textContent = `Bienvenido ${currentUserInfo.userName}!`
 }

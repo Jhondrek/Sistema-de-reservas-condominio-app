@@ -7,7 +7,7 @@ const passwordEl = document.getElementById("passwordEl")
 const signInEmailPwBtn = document.getElementById("sing-in-email-pw-btn")
 const emailAlert = document.getElementById("email-alert")
 const passwordAlert = document.getElementById("password-alert")
-
+const forgotPasswordEl = document.getElementById("forgot-password")
 
 
 /* == Auth - Object == */
@@ -28,6 +28,10 @@ googleBtn.addEventListener("click", function(){
 signInEmailPwBtn.addEventListener("click", function(){
     signInWithEmailAndPassword()
 
+})
+
+forgotPasswordEl.addEventListener("click", function(){
+    authService.sendPasswordResetEmail(emailEl.value)
 })
 
 /* == Sing in with Email and password == */
@@ -53,8 +57,8 @@ async function signInWithEmailAndPassword() {
 async function handleGoogleSignUpProcess() {   
     try{
         await signInWithGoogle()
-        console.log(authService.userId)
-
+        
+        renderLoadingAnimation()
         const wasUserRegistedBefore = await wasUserRegisteredBefore(authService.userId)
         
         if(wasUserRegistedBefore){
@@ -91,4 +95,14 @@ function showElement(element){
 function hideElement(element){
     element.style.display = "none"
 
+}
+
+function renderLoadingAnimation(){
+    const bodyElement = document.getElementById("body-content")
+    Array.from(bodyElement.children).forEach(child => {
+        child.style.display = "none";
+    })
+    const loaderDiv = document.getElementById("loader")
+    console.log(loaderDiv)
+    loaderDiv.style.display = "flex"
 }

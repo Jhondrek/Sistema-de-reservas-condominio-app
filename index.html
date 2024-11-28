@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="/public/assets/css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
-<body class="auth-body-spacing">
+<body class="auth-body-spacing" id="body-content">
     
     <main>
         <h1>Iniciar sesión</h1>
         <input type="email" placeholder="email" id="emailEl">
         <input type="password" placeholder="contraseña" id="passwordEl">
+        <a class="forgot-password" id="forgot-password">olvidó su contraseña?</a>
         <button class="primary-btn" id="sing-in-email-pw-btn">Iniciar sesión</button>
         <p class="alert-message alert-font" id="email-alert">El correo electronico ingresado no ha sido registrado, favor crear cuenta</p>
         <p class="alert-message alert-font" id="password-alert">La contraseña ingresada no es valida</p>
@@ -30,7 +31,7 @@
             <p>no tienes cuenta?  </p><a href="./public/createAccount.html"> crea una cuenta</a>
         </div>
     </section>
-
+    <div class="loader" id="loader"></div>
     <script src="src/js/api/firebaseAuthService.js" type="module"></script>
     <script src="src/js/components/index.js" type="module"></script>
 </body>

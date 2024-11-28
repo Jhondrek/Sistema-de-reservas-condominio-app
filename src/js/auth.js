@@ -27,4 +27,8 @@ export class AuthService{
         throw "Method not implemented";
     }
 
+    async sendPasswordResetEmail(){
+        throw "Method not implemented";
+    }
+
 }

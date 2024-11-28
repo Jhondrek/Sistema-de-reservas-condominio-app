@@ -10,7 +10,8 @@ import {  getAuth,
             signInWithPopup,
             signOut,
             fetchSignInMethodsForEmail,
-            signInWithEmailAndPassword    
+            signInWithEmailAndPassword,
+            sendPasswordResetEmail    
 } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js'
 
 import { getFirestore, 
@@ -64,5 +65,6 @@ export {createUserWithEmailAndPassword,
         signInWithEmailAndPassword,
         getAuth,
         doc,
-        deleteDoc 
+        deleteDoc,
+        sendPasswordResetEmail 
 }

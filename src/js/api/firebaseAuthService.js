@@ -9,7 +9,8 @@ import { AuthService } from "../auth.js"
           signOut,
           fetchSignInMethodsForEmail,
           signInWithEmailAndPassword,
-          getAuth
+          getAuth,
+          sendPasswordResetEmail 
   } from "../api/firebaseConfig.js"
 
 // this.auth = getAuth()
@@ -150,7 +151,15 @@ export class FirebaseAuth extends AuthService {
 
   }
 
-
+  sendPasswordResetEmail(email){
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+      console.log(true)
+    })
+    .catch((e) => {
+      console.log(e.message)
+    });
+  } 
 
 
 }

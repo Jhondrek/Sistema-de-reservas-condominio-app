@@ -18,6 +18,7 @@ const reservationFormEl = document.getElementById("reservation-form")
 const dateEl = document.getElementById("date")
 const messagePopupEl = document.getElementById("message-popup")
 const mainTag = document.getElementById("main")
+const hourReservationContainer = document.getElementById("hour-reservation-container")
 
 /* == global variables == */
     let firstSelectedHour = ""
@@ -185,7 +186,7 @@ async function deleteReservation(reservationDetails){
     ]
 
     const a = await repository.deleteDocumentByFilter("reservations",filters)
-    console.log(a)
+    
 }
 
 //Returns an array of objects with the information of the reservations done in a specific date
@@ -261,6 +262,7 @@ async function renderSchedulingTimes(){
         `
         hourCounter++
     }
+    hourReservationContainer.style.display="block"
     reservationTimesContainer.innerHTML = HtmlTimeStamps
     blockPreviousReservations()
 }
@@ -285,10 +287,13 @@ async function handleClicksOnHours(e){
 
                 document.getElementById("delete-reservation").addEventListener("click", async function(){
                     await deleteReservation(selectedReservationDetails)
+                    loadingPopup()
                     reservationsHours = await getReservationHours()
                     console.log(reservationsHours)
                     setHandleClickInitialState()
-                    hidePopup()
+                    
+                    showPopup(getDeleteConfirmHtml())
+                    setClosePopupBtnListener ()
                     
                 })
 
@@ -434,11 +439,15 @@ function hidePopup(){
 }
 async function handleReservationConfirmProcess(){
     showPopup()
-    messagePopupEl.innerHTML = `<div class="loader"></div>`
+    loadingPopup()
     const confirmationHtml = await getReservationConfirmationHTML()
     console.log(confirmationHtml)
     messagePopupEl.innerHTML = confirmationHtml
     setClosePopupBtnListener ()
+}
+
+function loadingPopup(){
+    messagePopupEl.innerHTML = `<div class="loader"></div>`
 }
 
 function setClosePopupBtnListener (){
@@ -520,8 +529,17 @@ function getOwnReservationDetailsHtml(reservationDetails){
 
     <div class="pop-up-btns-container">
         <button id="close-btn" class="close-popup-btn">Cerrar</button>
-        <button id="delete-reservation" class="delete-btn">Eliminar reserva actual</button>
+        <button id="delete-reservation" class="delete-btn">Eliminar reserva</button>
     </div>
 </div>
+    `
+}
+
+
+function getDeleteConfirmHtml(){
+    return `<p>
+        Reserva eliminada con exito!
+        </p>
+        <button id="close-btn">De acuerdo!</button>
     `
 }
