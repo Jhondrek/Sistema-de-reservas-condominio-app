@@ -83,4 +83,5 @@ input:nth-of-type(2){
 .forgot-password{
     margin: 0.5rem 0rem 1.5rem 0rem;
     font-size: 0.9rem;
+    cursor: pointer;
 }

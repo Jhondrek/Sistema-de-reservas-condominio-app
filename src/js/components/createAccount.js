@@ -51,7 +51,8 @@ async function addHouseNumber(){
     console.log(userInfo)
     const documentToAdd = {
         userId : userInfo.userId,
-        houseNumber : houseNumber.value
+        houseNumber : houseNumber.value,
+        userName : nameEl.value
     }
     console.log(documentToAdd)
     await repository.addDocument(extraUserInfoRepo ,documentToAdd)

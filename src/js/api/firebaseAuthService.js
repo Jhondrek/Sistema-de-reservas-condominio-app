@@ -125,10 +125,11 @@ export class FirebaseAuth extends AuthService {
   async isUserRegistered(email) {
     try {
       const signInMethods = await fetchSignInMethodsForEmail(this.auth, email);
+      console.log(signInMethods)
       if (signInMethods.length === 0) {
             return false
       } else {
-            return true
+            return signInMethods
       }
     } catch (error) {
       console.error("Error fetching sign-in methods:", error.message);
@@ -152,7 +153,7 @@ export class FirebaseAuth extends AuthService {
   }
 
   sendPasswordResetEmail(email){
-    sendPasswordResetEmail(auth, email)
+    sendPasswordResetEmail(this.auth, email)
     .then(() => {
       console.log(true)
     })

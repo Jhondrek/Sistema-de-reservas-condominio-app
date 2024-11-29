@@ -149,7 +149,7 @@ async function saveReservation() {
 
     if(firstSelectedHour){
         const currentUserInfo = await getCurrentUserInformation()
-        const houseNumber = await getUserHouseNumber(currentUserInfo.userId)
+        const userInformation = await getUserHouseNumber(currentUserInfo.userId)
         let startHour = 0
         let endHour = 0
 
@@ -164,9 +164,9 @@ async function saveReservation() {
         const documentToAdd = {
             firstHour : startHour,
             secondHour : endHour,
-            userId : currentUserInfo.userId,
-            userName : currentUserInfo.userName,
-            houseNumber: houseNumber,
+            userId : userInformation.userId,
+            userName : userInformation.userName,
+            houseNumber: userInformation.houseNumber,
             reservationDate: dateEl.value,
             commonAreaId : commonAreaId
         }
@@ -232,8 +232,8 @@ async function getUserHouseNumber(userId){
         { field: "userId", operator: "==", value: userId }
     ];
     const extraInfoDoc = await repository.getDocumentsByFilter("extraUserInfo", filters)
-    const houseNumber = extraInfoDoc.docs[0].data().houseNumber
-    return houseNumber
+    const userInformation = extraInfoDoc.docs[0].data()
+    return userInformation
 }
 
 /* == UI functions == */
@@ -459,12 +459,12 @@ function setClosePopupBtnListener (){
 
 async function getReservationConfirmationHTML(){
     const currentUserInfo = await getCurrentUserInformation()
-    const houseNumber = await getUserHouseNumber(currentUserInfo.userId)
+    const userInformation = await getUserHouseNumber(currentUserInfo.userId)
     
     return`
     <p>
-        Estimado/a ${currentUserInfo.userName},<br><br>
-        Su reserva ha sido registrada exitosamente con el número de casa ${houseNumber}.<br><br>
+        Estimado/a ${userInformation.userName},<br><br>
+        Su reserva ha sido registrada exitosamente con el número de casa ${userInformation.houseNumber}.<br><br>
         Fecha: <span class="bold">${dateEl.value}<br></span>
         Horario:<span class="bold"> de ${getHourSelectionHtml()}</span><br><br>
     </p>

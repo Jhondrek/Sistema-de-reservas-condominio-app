@@ -31,7 +31,7 @@ signInEmailPwBtn.addEventListener("click", function(){
 })
 
 forgotPasswordEl.addEventListener("click", function(){
-    authService.sendPasswordResetEmail(emailEl.value)
+    handleForgotPasswordRequest()
 })
 
 /* == Sing in with Email and password == */
@@ -87,6 +87,14 @@ async function signInWithGoogle() {
 
 
 /* == UI functions == */
+function handleForgotPasswordRequest(){
+    if(emailEl.value){
+        authService.sendPasswordResetEmail(emailEl.value)
+        alert("Favor revisar su correo para cambiar su contraseña")
+    }else{
+        alert("Favor ingresar su correo electrónico en el campo indicado antes de solicitar el cambio de contraseña.")
+    }
+}
 
 function showElement(element){
     element.style.display = "flex"
@@ -106,3 +114,5 @@ function renderLoadingAnimation(){
     console.log(loaderDiv)
     loaderDiv.style.display = "flex"
 }
+
+

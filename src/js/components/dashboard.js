@@ -53,6 +53,7 @@ function createCommonArea(wholeDoc){
 }
 renderWelcomeMessage()
 async function renderWelcomeMessage(){
-    const currentUserInfo = await authService.getCurrentUserInformation()
-    welcomeMessage.textContent = `Bienvenido ${currentUserInfo.userName}!`
+    const userInformation = await authService.getCurrentUserInformation()
+    const userExtraInformation = await repository.getDocumentsByFilter("extraUserInfo",[{field: "userId", operator: "==", value: userInformation.userId}])
+    welcomeMessage.textContent = `Bienvenido ${userExtraInformation.docs[0].data().userName}!`
 }
