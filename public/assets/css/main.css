@@ -128,3 +128,10 @@ button, input{
         transform: rotate(360deg);
     }
     } 
+
+    @media (min-width: 580px) {
+        body{
+            max-width: 580px;
+            margin: 0 auto;
+        }
+      }
