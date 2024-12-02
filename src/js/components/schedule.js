@@ -92,6 +92,7 @@ reservationTimesContainer.addEventListener("click", function(e){
 
 
 async function isDateClickedBooked(e) {
+    
     const reservedHours = await getReservationHours()
     
     for(let i = 0; i< reservedHours.length; i = i+2){
@@ -437,6 +438,7 @@ function hidePopup(){
     messagePopupEl.style.display = "none"
     mainTag.classList.remove("opacity")
 }
+
 async function handleReservationConfirmProcess(){
     showPopup()
     loadingPopup()

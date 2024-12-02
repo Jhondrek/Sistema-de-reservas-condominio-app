@@ -64,6 +64,7 @@ button{
     width: 100%;
 }
 
+
  button:active{
     background-color: var(--call-to-action-three);
 }
@@ -83,8 +84,8 @@ input{
     width: 100%;
 }
 
-button, input{
-    padding: 1rem 0.5rem;
+button, input, .interactive-element{
+    padding: 1em 0.5em;
     border-radius:  var(--border-radius);
 }
 
@@ -135,3 +136,64 @@ button, input{
             margin: 0 auto;
         }
       }
+
+    .opacity{
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+
+
+.pop-up-btns-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.message-popup p{
+    margin: 0;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.button-popup-div{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.message-popup{
+    position: fixed;
+    top: 10%; 
+    left: 50%;
+    transform: translate(-50%);
+    background-color: var(--silver);
+    border-radius: 10px;
+    padding: 2em 3em;
+    width: 80%;
+    padding: 3rem 2.5rem;
+    opacity: 1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20%;
+    max-width: 580px;
+}
+
+.reservation-details h2{
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+    text-align: left;
+}
+
+
+.reservation-details p{
+    margin: none
+}
+
+.reservation-details button{
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-top: 1rem;
+}
+

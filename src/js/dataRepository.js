@@ -19,6 +19,10 @@ export class DataRepository{
     async deleteDocumentByFilter(){
         throw "Method not implemented"
     }
+
+    async getOrderedDocumentsByFilter(){
+        throw "Method not implemented"
+    }
 }
 
 

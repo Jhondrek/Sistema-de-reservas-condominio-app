@@ -68,44 +68,32 @@ input[type="date"]{
     margin-top: 2rem;
 }
 
-.message-popup{
-    position: fixed;
-    top: 10%; 
-    left: 50%;
-    transform: translate(-50%);
-    background-color: var(--silver);
-    border-radius: 10px;
-    padding: 2em 3em;
-    width: 80%;
-    padding: 3rem 2.5rem;
-    opacity: 1;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 20%;
-    max-width: 580px;
-}
 
-.message-popup p{
-    margin: 0;
-    margin-bottom: 1rem;
-    font-weight: 500;
-}
 
-.button-popup-div{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
 
-.opacity{
-    opacity: 0.5;
-    pointer-events: none;
-}
+
 
 .bold{
     font-weight: bold;
+}
+
+
+.upload-btn{
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+}
+
+
+
+.go-back-anchor{
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+    color: var(--tinted-black);
+}
+
+#hour-reservation-container{
+    display: none;
 }
 
 .reservation-details h2{
@@ -123,27 +111,4 @@ input[type="date"]{
     font-weight: 400;
     margin-top: 1rem;
 }
-
-.upload-btn{
-    font-size: 0.8rem;
-    margin-bottom: 2rem;
-}
-
-.pop-up-btns-container{
-    display: flex;
-    justify-content: space-between;
-}
-
-.go-back-anchor{
-    cursor: pointer;
-    font-size: 0.8rem;
-    margin-bottom: 2rem;
-    color: var(--tinted-black);
-}
-
-#hour-reservation-container{
-    display: none;
-}
-
-/* HTML: <div class="loader"></div> */
 

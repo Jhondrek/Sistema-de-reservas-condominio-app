@@ -3,6 +3,7 @@
     --call-to-action-one: #A0AE34;
     --call-to-action-two: #AE6140;
     --call-to-action-three:#955337;
+    --call-to-action-four:#ae7b66;
     --primary-color-one: #584338;
     --primary-color-two: #4D3932;
     --black:#000000;
@@ -87,4 +88,49 @@ img{
 
 .cerrar-sesion:hover{
     background-color: var(--main-bg-color);
+}
+
+.view-reservations-section{
+    width: 100%;
+}
+
+.view-reservations-container{
+    display: flex;
+    margin-top: 1rem;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.view-reservations-btn{
+    width: fit-content;
+    display: inline;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.8em 0.5em ;
+    
+}
+
+.reservation-preview-container{
+    padding: 0.8em 0.5em ;
+    font-weight: 500;
+    font-size: 0.8rem;
+    background-color: var(--call-to-action-four);
+    color: white;
+    width: 100%;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin-top: 2.5em;
+    gap: 1em;
+    text-align: center;
+}
+
+.reservation-preview-container p{
+    margin: 0;
+}
+
+.mis-reservas-btn{
+    width: fit-content;
+    background-color: var(--call-to-action-four);
+    padding: 0.5rem ;
+    font-size: 0.8rem;
 }

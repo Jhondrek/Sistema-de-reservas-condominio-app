@@ -22,7 +22,8 @@ import { getFirestore,
             where,
             getDoc,
             doc,
-            deleteDoc   
+            deleteDoc,
+            orderBy   
 } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js'
 
   // TODO: Add SDKs for Firebase products that you want to use
@@ -66,5 +67,6 @@ export {createUserWithEmailAndPassword,
         getAuth,
         doc,
         deleteDoc,
-        sendPasswordResetEmail 
+        sendPasswordResetEmail,
+        orderBy
 }

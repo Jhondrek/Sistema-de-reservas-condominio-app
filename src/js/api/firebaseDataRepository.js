@@ -1,5 +1,5 @@
 import {DataRepository} from "../dataRepository.js"
-import { firestore, db, addDoc, collection, getDocs, query, where, getDoc, deleteDoc  
+import { firestore, db, addDoc, collection, getDocs, query, where, getDoc, deleteDoc, orderBy  
 } from "./firebaseConfig.js"
 import {auth, onAuthStateChanged } from "../api/firebaseConfig.js"
 
@@ -13,7 +13,6 @@ export class fireBaseRepository extends DataRepository{
         this.auth.onAuthStateChanged(user => {
             this.currentUser = user;
         });
-        console.log()
     }
 
 // Creates a new document in the specified collection with the provided data object.
@@ -57,6 +56,22 @@ async  getDocumentsByFilter(collectionName, filters) {
 
     filters.forEach(filter => {
         queryRef = query(queryRef, where(filter.field, filter.operator, filter.value));
+    });
+
+    const querySnapshot = await getDocs(queryRef);
+
+    if (querySnapshot.size > 0) {
+        return querySnapshot;
+    } else {
+        return false;
+    }
+}
+
+async getOrderedDocumentsByFilter(collectionName, filters) {
+    let queryRef = collection(db, collectionName);
+
+    filters.forEach(filter => {
+        queryRef = query(queryRef, orderBy("reservationDate"), where(filter.field, filter.operator, filter.value));
     });
 
     const querySnapshot = await getDocs(queryRef);
