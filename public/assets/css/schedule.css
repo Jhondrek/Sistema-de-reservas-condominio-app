@@ -96,19 +96,3 @@ input[type="date"]{
     display: none;
 }
 
-.reservation-details h2{
-    margin-bottom: 0.8rem;
-    font-size: 1.4rem;
-}
-
-
-.reservation-details p{
-    margin: none
-}
-
-.reservation-details button{
-    font-size: 0.8rem;
-    font-weight: 400;
-    margin-top: 1rem;
-}
-
