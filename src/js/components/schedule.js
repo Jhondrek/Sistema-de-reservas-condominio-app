@@ -24,8 +24,8 @@ const hourReservationContainer = document.getElementById("hour-reservation-conta
     let firstSelectedHour = ""
     let secondSelectedHour = ""
     let clickCounter = 0
-//stores a two element array, the first element is the lowest selected hour by the user and the second is the highest selected hour
-    let currentTimeRange = []
+// Stores a two-element array: the first element represents the earliest hour selected by the user, and the second represents the latest hour selected.
+let currentTimeRange = []
 // Its value is assigned in renderSchedulingTimes() (to show the booked dates) and in saveReservation() (to add the newly booked hours to the UI).
 
     let reservationsHours = []
@@ -465,7 +465,7 @@ async function getReservationConfirmationHTML(){
     
     return`
     <p>
-        Estimado/a ${userInformation.userName},<br><br>
+        Hola Estimado/a ${userInformation.userName},<br><br>
         Su reserva ha sido registrada exitosamente con el número de casa ${userInformation.houseNumber}.<br><br>
         Fecha: <span class="bold">${dateEl.value}<br></span>
         Horario:<span class="bold"> de ${getHourSelectionHtml()}</span><br><br>
