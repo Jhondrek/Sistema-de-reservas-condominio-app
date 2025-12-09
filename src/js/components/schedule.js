@@ -422,8 +422,9 @@ function formatHours(time){
 
 function formatDate(dateValue){
     const splitedDate = dateValue.split("-")
-    const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]
-    return `${splitedDate[2]} de ${meses[splitedDate[1]-1]} del ${splitedDate[0]}`
+    const meses = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"]
+    return `${meses[splitedDate[1]-1]} ${splitedDate[2]} ${splitedDate[0]}`
 }
 
 function showPopup(popupHTML){
@@ -485,7 +486,7 @@ function getRangeErrorHtml(){
 function getReservationAcknowledgeHtml(){
     
     const htmlResponse = `
-        <p>Would you like to create a reservation for ${formatDate(dateEl.value)} from ${getHourSelectionHtml()}?</p>
+        <p>Would you like to create a reservation on ${formatDate(dateEl.value)} from ${getHourSelectionHtml()}?</p>
         <div class="button-popup-div">
             <button id="close-btn">Cancel</button> 
             <button id="confirm-reservation-btn">Confirm Reservation</button>
@@ -498,9 +499,9 @@ function getReservationAcknowledgeHtml(){
 function getHourSelectionHtml(){
     
     if(currentTimeRange[0]==currentTimeRange[1] || (firstSelectedHour && !secondSelectedHour)){
-        return ` ${formatHours(firstSelectedHour)} a ${formatHours(Number(firstSelectedHour) + 1)}`
+        return ` ${formatHours(firstSelectedHour)} to ${formatHours(Number(firstSelectedHour) + 1)}`
     }else{
-        return ` ${formatHours(currentTimeRange[0])} a ${formatHours(currentTimeRange[1])}`
+        return ` ${formatHours(currentTimeRange[0])} to ${formatHours(currentTimeRange[1])}`
     }
 }
 
