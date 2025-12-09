@@ -55,5 +55,5 @@ renderWelcomeMessage()
 async function renderWelcomeMessage(){
     const userInformation = await authService.getCurrentUserInformation()
     const userExtraInformation = await repository.getDocumentsByFilter("extraUserInfo",[{field: "userId", operator: "==", value: userInformation.userId}])
-    welcomeMessage.textContent = `Bienvenido ${userExtraInformation.docs[0].data().userName}!`
+    welcomeMessage.textContent = `Welcome ${userExtraInformation.docs[0].data().userName}!`
 }
