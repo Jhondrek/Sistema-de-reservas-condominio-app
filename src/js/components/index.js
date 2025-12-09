@@ -38,18 +38,24 @@ forgotPasswordEl.addEventListener("click", function(){
 
 async function signInWithEmailAndPassword() {
 
-    const logInErrorMessage = await authService.emailAndPasswordSignIn(emailEl.value, passwordEl.value)
-    if(logInErrorMessage === "El correo electronico ingresado no ha sido registrado en la base da datos"){
+    const logInErrorMessage = await authService.emailAndPasswordSignIn(
+        emailEl.value, 
+        passwordEl.value
+    )
+
+    if (logInErrorMessage === "The email address you entered is not registered in the database.") {
         hideElement(passwordAlert)
         showElement(emailAlert)
-    }else if(logInErrorMessage === "La contraseña ingresada no es valida"){
+
+    } else if (logInErrorMessage === "The password you entered is not valid.") {
         hideElement(emailAlert)
         showElement(passwordAlert)
-    }else if(logInErrorMessage === true){
+
+    } else if (logInErrorMessage === true) {
         window.location.href = "./public/dashboard.html"
     }
-    
 }
+
 
 
 /* == Sing in with Google == */
@@ -87,12 +93,12 @@ async function signInWithGoogle() {
 
 
 /* == UI functions == */
-function handleForgotPasswordRequest(){
-    if(emailEl.value){
+function handleForgotPasswordRequest() {
+    if (emailEl.value) {
         authService.sendPasswordResetEmail(emailEl.value)
-        alert("Favor revisar su correo para cambiar su contraseña")
-    }else{
-        alert("Favor ingresar su correo electrónico en el campo indicado antes de solicitar el cambio de contraseña.")
+        alert("Please check your email to reset your password.")
+    } else {
+        alert("Please enter your email address before requesting a password reset.")
     }
 }
 

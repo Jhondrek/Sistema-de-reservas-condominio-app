@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear cuenta</title>
+    <title>Create account</title>
     <link rel="stylesheet" href="/public/assets/css/main.css">
     <link rel="stylesheet" href="/public/assets/css/createAccount.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -11,29 +11,36 @@
 <body class="auth-body-spacing">
 
     <main>
-        <h1>Crear cuenta</h1>
+        <h1>Create Account</h1>
         <form id="new-user-form">
-            <input type="text" placeholder="Nombre completo" id="name-el" >
-            
-            <input type="password" placeholder="Contraseña" id="first-password"  required minlength="6">
-            <input type="password" placeholder="Confirmar contraseña" id="second-password"   required minlength="6">
-            <div class="email-house-number-container">
-                
-                <input class="email-el" type="email" placeholder="email" id="email-el" >
-                
-                <input class="house-number" type="number" placeholder="# casa" id="house-number" >
-            </div>
-            <input type="submit" class="primary-btn" value="Crear cuenta">
+            <input type="text" placeholder="Full Name" id="name-el">
 
+            <input type="password" placeholder="Password" id="first-password" required minlength="6">
+            <input type="password" placeholder="Confirm Password" id="second-password" required minlength="6">
+
+            <div class="email-house-number-container">
+                <input class="email-el" type="email" placeholder="Email" id="email-el">
+                <input class="house-number" type="number" placeholder="House #" id="house-number">
+            </div>
+
+            <input type="submit" class="primary-btn" value="Create Account">
         </form>
     </main>
 
-    <p class="alert-message alert-font" id="house-Num-alert">El numero de casa seleccionado ya se encuentra registrado en la base de datos, favor verificar</p>
-    <p class="alert-message alert-font" id="email-registered-alert">El correo electronico ingresado ya se encuentra registrado en la base de datos, favor iniciar sesion en la pagina de inicio</p>
+    <p class="alert-message alert-font" id="house-Num-alert">
+        The selected house number is already registered in the database. Please verify your information.
+    </p>
+
+    <p class="alert-message alert-font" id="email-registered-alert">
+        The email address you entered is already registered. Please sign in on the home page.
+    </p>
 
     <div class="sign-in-container">
-        <p>Ya tienes una cuenta?</p> <a href="../index.html">iniciar sesion</a>
+        <p>Already have an account?</p> 
+        <a href="../index.html">Sign in</a>
     </div>
+
     <script src="../src/js/components/createAccount.js" type="module"></script>
 </body>
+
 </html>

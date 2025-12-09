@@ -11,31 +11,37 @@
 <body class="auth-body-spacing" id="body-content">
     
     <main>
-        <h1>Iniciar sesión</h1>
-        <input type="email" placeholder="email" id="emailEl">
-        <input type="password" placeholder="contraseña" id="passwordEl">
-        <a class="forgot-password" id="forgot-password">olvidó su contraseña?</a>
-        <button class="primary-btn" id="sing-in-email-pw-btn">Iniciar sesión</button>
-        <p class="alert-message alert-font" id="email-alert">El correo electronico ingresado no ha sido registrado, favor crear cuenta</p>
-        <p class="alert-message alert-font" id="password-alert">La contraseña ingresada no es valida</p>
+        <h1>Sign In</h1>
+        <input type="email" placeholder="Email" id="emailEl">
+        <input type="password" placeholder="Password" id="passwordEl">
+        <a class="forgot-password" id="forgot-password">Forgot your password?</a>
+        <button class="primary-btn" id="sing-in-email-pw-btn">Sign In</button>
+        <p class="alert-message alert-font" id="email-alert">
+            The email address you entered is not registered. Please create an account.
+        </p>
+        <p class="alert-message alert-font" id="password-alert">
+            The password you entered is not valid.
+        </p>
     </main>
     
     <section class="google-sign-log-in-container">
         <div class="google-sign-in-container">
-            <p>O inicia sesion con</p>
-            <button  class="btn google-btn" id="google-btn">
-                    <img src="/public/assets/img/google.png" alt="google logo" class="google-img">
+            <p>Or sign in with</p>
+            <button class="btn google-btn" id="google-btn">
+                <img src="/public/assets/img/google.png" alt="Google logo" class="google-img">
             </button>
         </div>
-         <div class="create-account">
-            <p>no tienes cuenta?  </p><a href="./public/createAccount.html"> crea una cuenta</a>
+
+        <div class="create-account">
+            <p>Don’t have an account?</p>
+            <a href="./public/createAccount.html">Create an account</a>
         </div>
     </section>
 
-    
-
     <div class="loader" id="loader"></div>
+
     <script src="src/js/api/firebaseAuthService.js" type="module"></script>
     <script src="src/js/components/index.js" type="module"></script>
 </body>
+
 </html>
