@@ -468,7 +468,7 @@ async function getReservationConfirmationHTML(){
     <p>
     Hi ${userInformation.userName},<br><br>
     Your reservation has been successfully confirmed for house number ${userInformation.houseNumber}.<br><br>
-    Date: <span class="bold">${dateEl.value}<br></span>
+    Date: <span class="bold">${formatDate(dateEl.value)}<br></span>
     Time: <span class="bold">${getHourSelectionHtml()}</span><br><br>
     </p>
     <button id="close-btn">Got it!</button>
@@ -499,9 +499,9 @@ function getReservationAcknowledgeHtml(){
 function getHourSelectionHtml(){
     
     if(currentTimeRange[0]==currentTimeRange[1] || (firstSelectedHour && !secondSelectedHour)){
-        return ` ${formatHours(firstSelectedHour)} to ${formatHours(Number(firstSelectedHour) + 1)}`
+        return ` ${formatHours(firstSelectedHour)} - ${formatHours(Number(firstSelectedHour) + 1)}`
     }else{
-        return ` ${formatHours(currentTimeRange[0])} to ${formatHours(currentTimeRange[1])}`
+        return ` ${formatHours(currentTimeRange[0])} - ${formatHours(currentTimeRange[1])}`
     }
 }
 
