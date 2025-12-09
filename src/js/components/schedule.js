@@ -465,28 +465,30 @@ async function getReservationConfirmationHTML(){
     
     return`
     <p>
-        Hola Estimado/a ${userInformation.userName},<br><br>
-        Su reserva ha sido registrada exitosamente con el número de casa ${userInformation.houseNumber}.<br><br>
-        Fecha: <span class="bold">${dateEl.value}<br></span>
-        Horario:<span class="bold"> de ${getHourSelectionHtml()}</span><br><br>
+    Hi ${userInformation.userName},<br><br>
+    Your reservation has been successfully confirmed for house number ${userInformation.houseNumber}.<br><br>
+    Date: <span class="bold">${dateEl.value}<br></span>
+    Time: <span class="bold">${getHourSelectionHtml()}</span><br><br>
     </p>
-    <button id="close-btn">De acuerdo!</button>
+    <button id="close-btn">Got it!</button>
+
     `
 }
 
 function getRangeErrorHtml(){
-    return `<p>El rango de horas seleccionado entra en conflicto con una reserva anterior. Por favor, elija solo los horarios que no hayan sido seleccionados previamente (Los que no aparecen en gris).</p>
-    <button id="close-btn">Cancelar</button> 
+    return `<p>
+    The selected time range conflicts with an existing reservation. Please choose only time slots that haven’t been booked yet (the ones not shown in gray).</p>
+    <button id="close-btn">Cancel</button>
     `
 }
 
 function getReservationAcknowledgeHtml(){
     
     const htmlResponse = `
-        <p>Desea crear una reserva para el dia ${formatDate(dateEl.value)} en un horario de ${getHourSelectionHtml()}?</p>
+        <p>Would you like to create a reservation for ${formatDate(dateEl.value)} from ${getHourSelectionHtml()}?</p>
         <div class="button-popup-div">
-            <button id="close-btn">Cancelar</button> 
-            <button id="confirm-reservation-btn">Reservar</button>
+            <button id="close-btn">Cancel</button> 
+            <button id="confirm-reservation-btn">Confirm Reservation</button>
         </div>
     `
 
@@ -505,13 +507,14 @@ function getHourSelectionHtml(){
 function getBookedReservationHtml(reservationDetails){
     return `
     <p>
-        Informacion de la reserva seleccionada:<br><br>
-        Nombre del Inquilino que reserva <span class="bold">${reservationDetails.userName}</span>,<br><br>
-        Número de casa: <span class="bold">${reservationDetails.houseNumber}</span>.<br><br>
-        Fecha: <span class="bold">${formatDate(reservationDetails.reservationDate)}</span><br>
-        Horario: <span class="bold">de ${formatHours(reservationDetails.firstHour)} a ${formatHours(reservationDetails.secondHour)}</span><br><br>
+    Selected Reservation Details:<br><br>
+    Tenant Name: <span class="bold">${reservationDetails.userName}</span>,<br><br>
+    House Number: <span class="bold">${reservationDetails.houseNumber}</span>.<br><br>
+    Date: <span class="bold">${formatDate(reservationDetails.reservationDate)}</span><br>
+    Time: <span class="bold">from ${formatHours(reservationDetails.firstHour)} to ${formatHours(reservationDetails.secondHour)}</span><br><br>
     </p>
-    <button id="close-btn">De acuerdo!</button>
+    <button id="close-btn">Got it!</button>
+
     `
 }
 
@@ -520,28 +523,25 @@ function getOwnReservationDetailsHtml(reservationDetails){
     return `
     <div class="reservation-details">
 
-    <h2>Detalles de su Reserva: </h2>
-    <p>Estimado/a <span class="bold">${reservationDetails.userName}</span>, aquí están los detalles de su reserva:</p>
-    
-    
-        <p><strong>Número de Casa:</strong> ${reservationDetails.houseNumber}</p>
-        <p><strong>Fecha:</strong> ${formatDate(reservationDetails.reservationDate)}</p>
-        <p><strong>Horario:</strong> de ${getHourSelectionHtml()}</>
-    
+        <h2>Your Reservation Details</h2>
+        <p>Hi <span class="bold">${reservationDetails.userName}</span>, here are the details of your reservation:</p>
 
-    <div class="pop-up-btns-container">
-        <button id="close-btn" class="close-popup-btn">Cerrar</button>
-        <button id="delete-reservation" class="delete-btn">Eliminar reserva</button>
+        <p><strong>House Number:</strong> ${reservationDetails.houseNumber}</p>
+        <p><strong>Date:</strong> ${formatDate(reservationDetails.reservationDate)}</p>
+        <p><strong>Time:</strong> ${getHourSelectionHtml()}</p>
+
+        <div class="pop-up-btns-container">
+            <button id="close-btn" class="close-popup-btn">Close</button>
+            <button id="delete-reservation" class="delete-btn">Delete Reservation</button>
+        </div>
     </div>
-</div>
     `
 }
 
 
 function getDeleteConfirmHtml(){
-    return `<p>
-        Reserva eliminada con exito!
-        </p>
-        <button id="close-btn">De acuerdo!</button>
+    return `<p>Reservation successfully deleted!
+    </p>
+    <button id="close-btn">Got it!</button>
     `
 }
