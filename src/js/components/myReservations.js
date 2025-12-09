@@ -121,7 +121,7 @@ function renderReservations(userReservations, isForUpcomingReservations){
         if(operator(reservation.data().reservationDate, formattedDate)){
             userReservationsHtml += `
             <div class="reservation-preview-container" id="${idCounter}">
-                <p>${formatDate(reservation.data().reservationDate)} de ${formatHours(reservation.data().firstHour)} a ${formatHours(reservation.data().secondHour)}</p>
+                <p>${formatDate(reservation.data().reservationDate)} from ${formatHours(reservation.data().firstHour)} to ${formatHours(reservation.data().secondHour)}</p>
             </div>`
         }
         idCounter++
