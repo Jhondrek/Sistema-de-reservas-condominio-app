@@ -108,7 +108,7 @@ async function getReservationByDivId(id){
 
 function renderReservations(userReservations, isForUpcomingReservations){
     const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0]; // Formato "YYYY-MM-DD"
+    const formattedDate = today.toISOString().split('T')[0]; // Format "YYYY-MM-DD"
 
     let userReservationsHtml = ``
     let idCounter = 0
@@ -147,8 +147,9 @@ function formatHours(time){
 
 function formatDate(dateValue){
     const splitedDate = dateValue.split("-")
-    const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]
-    return `${splitedDate[2]} de ${meses[splitedDate[1]-1]} del ${splitedDate[0]}`
+    const meses = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"]
+    return `${meses[splitedDate[1]-1]} ${splitedDate[2]} ${splitedDate[0]}`
 }
 
 
@@ -157,28 +158,27 @@ function getOwnReservationDetailsHtml(reservationDetails){
     return `
     <div class="reservation-details">
 
-    <h2>Detalles de su Reserva: </h2>
-    <p>Estimado/a <span class="bold">${reservationDetails.userName}</span>, aquí están los detalles de su reserva:</p>
-    
-    
-        <p><strong>Número de Casa:</strong> ${reservationDetails.houseNumber}</p>
-        <p><strong>Fecha:</strong> ${reservationDetails.reservationDate}</p>
-        <p><strong>Horario:</strong> de ${formatHours(reservationDetails.firstHour)} a ${formatHours(reservationDetails.secondHour)}</>
-    
+        <h2>Your Reservation Details</h2>
+        <p>Dear <span class="bold">${reservationDetails.userName}</span>, here are the details of your reservation:</p>
 
-    <div class="pop-up-btns-container">
-        <button id="close-btn" class="close-popup-btn">Cerrar</button>
-        <button id="delete-reservation" class="delete-btn">Eliminar reserva</button>
+        <p><strong>House Number:</strong> ${reservationDetails.houseNumber}</p>
+        <p><strong>Date:</strong> ${reservationDetails.reservationDate}</p>
+        <p><strong>Time:</strong> from ${formatHours(reservationDetails.firstHour)} to ${formatHours(reservationDetails.secondHour)}</p>
+
+        <div class="pop-up-btns-container">
+            <button id="close-btn" class="close-popup-btn">Close</button>
+            <button id="delete-reservation" class="delete-btn">Delete Reservation</button>
+        </div>
     </div>
-</div>
     `
 }
 
 function getDeleteConfirmHtml(){
     return `<p>
-        Reserva eliminada con exito!
-        </p>
-        <button id="close-btn">De acuerdo!</button>
+    Reservation successfully deleted.
+    </p>
+    <button id="close-btn">OK</button>
+
     `
 }
 

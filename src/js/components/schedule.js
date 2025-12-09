@@ -499,9 +499,9 @@ function getReservationAcknowledgeHtml(){
 function getHourSelectionHtml(){
     
     if(currentTimeRange[0]==currentTimeRange[1] || (firstSelectedHour && !secondSelectedHour)){
-        return ` ${formatHours(firstSelectedHour)} - ${formatHours(Number(firstSelectedHour) + 1)}`
+        return ` ${formatHours(firstSelectedHour)} to ${formatHours(Number(firstSelectedHour) + 1)}`
     }else{
-        return ` ${formatHours(currentTimeRange[0])} - ${formatHours(currentTimeRange[1])}`
+        return ` ${formatHours(currentTimeRange[0])} to ${formatHours(currentTimeRange[1])}`
     }
 }
 
