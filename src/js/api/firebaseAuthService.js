@@ -144,9 +144,9 @@ export class FirebaseAuth extends AuthService {
     }catch(e){
       console.log(e.message)
       if(e.message === "Firebase: Error (auth/user-not-found)."){
-        return "El correo electronico ingresado no ha sido registrado en la base da datos"
+        return "This email is not registered.";
       }else if(e.message === "Firebase: Error (auth/wrong-password)."){
-        return "La contraseña ingresada no es valida"
+        return "Incorrect password.";
       }
     }
 

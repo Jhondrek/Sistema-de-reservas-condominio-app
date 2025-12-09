@@ -11,26 +11,34 @@
     </head>
 
     <body>
-        <a class="fa-solid fa-arrow-left go-back-anchor" href="dashboard.html"></a>
-        <main id="main">
-            <form id="reservation-form">
-                <h1>Seleccione el dia a reservar</h1>
-                <input type="date" id="date" required >
-                <div id="hour-reservation-container">
-                    <h2>seleccione las horas a reservar:</h2>
-                    <section class="booking-availability" id="reservation-times-container">
-                    </section>
-                    <input type="submit" class="primary-btn save-reservation-btn" id="save-reservation-btn" value="Reservar">
-                </div>
-            </form>
-        </main>
-<span></span>
-        <section class="message-popup" id="message-popup">
+    <a class="fa-solid fa-arrow-left go-back-anchor" href="dashboard.html"></a>
+    <main id="main">
+        <form id="reservation-form">
+            <h1>Select a date to reserve</h1>
+            <input type="date" id="date" required>
             
-        </section>
+            <div id="hour-reservation-container">
+                <h2>Select the time slots to reserve:</h2>
+                <section class="booking-availability" id="reservation-times-container">
+                </section>
+                
+                <input 
+                    type="submit" 
+                    class="primary-btn save-reservation-btn" 
+                    id="save-reservation-btn" 
+                    value="Reserve"
+                >
+            </div>
+        </form>
+    </main>
+    
+    <span></span>
+    
+    <section class="message-popup" id="message-popup">
+    </section>
 
-        <script src="../src/js/components/schedule.js" type="module"></script>
-    </body>
+    <script src="../src/js/components/schedule.js" type="module"></script>
+</body>
 
     
 
